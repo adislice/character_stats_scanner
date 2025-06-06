@@ -8,20 +8,21 @@ class GameDataConfig:
     
     AVAILABLE_CHARACTERS: List[str] = [
         "Shorekeeper", "Camellya", "Danjin", 
-        "Jinhsi", "Ciaccona", "Changli"
+        "Jinhsi", "Ciaccona", "Changli", "Jiyan", 
+        "Sanhua", "Yangyang", "Verina", "Xiangli Yao"
     ]
     
     AVAILABLE_ATTRIBUTES: List[str] = [
-        "Spectro", "Havoc", "Electro", "Fusion", "Aero"
+        "Spectro", "Havoc", "Electro", "Fusion", "Aero", "Glacio"
     ]
     
     STAT_PATTERNS: Dict[str, str] = {
         'HP': r'HP.*?\s+(\d+)',
         'ATK': r'ATK.*?\s+(\d+)',
         'DEF': r'DEF.*?\s+(\d+)',
-        'Energy Regen': r'Energy.*?Regen.*?\s+([\d.]+)%',
-        'Crit. Rate': r'Crit.*?Rate.*?\s+([\d.]+)%',
-        'Crit. DMG': r'Crit.*?DMG.*?\s+([\d.]+)%'
+        'Energy Regen': r'Energy.*?Regen.*?([\d.]+)',
+        'Crit. Rate': r'Crit.*?Rate.*?([\d.]+)',
+        'Crit. DMG': r'Crit.*?DMG.*?([\d.]+)'
     }
     
     FALLBACK_CHARACTER: str = "Rover"

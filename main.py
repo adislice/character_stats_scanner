@@ -16,7 +16,7 @@ logger = setup_logger(__name__)
 def main():
     """Main function for standalone execution."""
     # Configuration
-    screenshot_path = "screenshots/Screenshot 2025-06-06 160645.png"
+    screenshot_path = "screenshots/Screenshot 2025-06-06 165153.png"
     template_path = "templates/stats_template.png"
     
     try:
