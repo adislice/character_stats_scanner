@@ -17,7 +17,7 @@ def main():
     """Main function for standalone execution."""
     # Configuration
     screenshot_path = "screenshots/Screenshot 2025-06-06 160645.png"
-    template_path = "templates/char_icon.png"
+    template_path = "templates/stats_template.png"
     
     try:
         # Validate input files

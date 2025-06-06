@@ -18,7 +18,7 @@ class TemplateMatching:
         self.min_matches = min_matches
         self.ransac_threshold = ransac_threshold
     
-    def detect_icon_position(self, screenshot_path: str, template_path: str, 
+    def detect_stats_position(self, screenshot_path: str, template_path: str, 
                            debug: bool = False) -> Tuple[int, int, int, int]:
         """Detect icon position using ORB feature matching."""
         self._validate_files(screenshot_path, template_path)
@@ -43,7 +43,7 @@ class TemplateMatching:
     def crop_detected_region(self, screenshot_path: str, template_path: str, 
                            debug: bool = False) -> np.ndarray:
         """Crop the detected region from screenshot."""
-        x, y, w, h = self.detect_icon_position(screenshot_path, template_path, debug)
+        x, y, w, h = self.detect_stats_position(screenshot_path, template_path, debug)
         
         original_img = cv2.imread(screenshot_path)
         if original_img is None:
