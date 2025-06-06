@@ -31,7 +31,8 @@ class TemplateMatching:
             raise ValueError("Failed to load images")
         
         # Perform feature matching
-        x, y, w, h = self._match_features_orb(img, template)
+        # x, y, w, h = self._match_features_orb(img, template)
+        x, y, w, h = self._match_features_sift(img, template)
         
         # Debug visualization
         if debug:
@@ -93,6 +94,56 @@ class TemplateMatching:
         
         # Get bounding rectangle
         x, y, w, h = cv2.boundingRect(dst)
+
+        return x, y, w, h
+        
+    def _match_features_sift(self, img: np.ndarray, template: np.ndarray) -> Tuple[int, int, int, int]:
+        """Perform SIFT feature matching and return bounding box."""
+        # SIFT feature detection
+        sift = cv2.SIFT_create()
+        kp1, des1 = sift.detectAndCompute(template, None)
+        kp2, des2 = sift.detectAndCompute(img, None)
+
+        if des1 is None or des2 is None:
+            raise ValueError("No features detected in images")
+
+        # Feature matching dengan FLANN (lebih cocok untuk float descriptor seperti SIFT)
+        FLANN_INDEX_KDTREE = 1
+        index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+        search_params = dict(checks=50)
+
+        flann = cv2.FlannBasedMatcher(index_params, search_params)
+        matches = flann.knnMatch(des1, des2, k=2)
+
+        # Lowe's ratio test
+        good_matches = []
+        for m, n in matches:
+            if m.distance < 0.75 * n.distance:
+                good_matches.append(m)
+
+        if len(good_matches) < self.min_matches:
+            raise ValueError(f"Not enough matches found: {len(good_matches)} < {self.min_matches}")
+
+        # Homography calculation
+        src_pts = np.float32([kp1[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+        dst_pts = np.float32([kp2[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+
+        M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, self.ransac_threshold)
+        if M is None:
+            raise ValueError("Failed to compute homography")
+
+        # Transform template corners
+        h, w = template.shape
+        pts = np.float32([[0, 0], [w, 0], [w, h], [0, h]]).reshape(-1, 1, 2)
+        dst = cv2.perspectiveTransform(pts, M)
+
+        # Get bounding rectangle
+        x, y, w, h = cv2.boundingRect(dst)
+
+        match_img = cv2.drawMatches(template, kp1, img, kp2, good_matches, None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+        cv2.imshow("Template Match", match_img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         return x, y, w, h
     
