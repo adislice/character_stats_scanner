@@ -1,0 +1,26 @@
+# Ignore Python virtual environment
+venv/
+.env/
+.venv/
+ENV/
+env/
+
+# Bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Logs & test output
+*.log
+*.out
+*.pytest_cache/
+.cache/
