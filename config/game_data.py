@@ -24,6 +24,8 @@ class GameDataConfig:
         'Crit. DMG': r'Crit.*?DMG.*?\s+([\d.]+)%'
     }
     
+    FALLBACK_CHARACTER: str = "Rover"
+    
     # OCR Configuration
     OCR_CONFIG: str = '--psm 6'
     

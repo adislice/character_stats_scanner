@@ -35,12 +35,11 @@ class StatsParser:
     
     def _extract_character_name(self, text: str) -> str:
         """Extract character name from text."""
-        text_lower = text.lower()
         for name in self.config.AVAILABLE_CHARACTERS:
-            if name.lower() in text_lower:
+            if name.lower() in text:
                 logger.debug(f"Found character: {name}")
                 return name
-        return ""
+        return self.config.FALLBACK_CHARACTER
     
     def _extract_attribute(self, text: str) -> str:
         """Extract attribute from text."""

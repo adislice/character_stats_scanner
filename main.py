@@ -3,8 +3,11 @@
 import sys
 from pathlib import Path
 
+import cv2
+
 from extractor.character_extractor import CharacterStatsExtractor
 from utils.logger import setup_logger
+
 
 # Setup logging
 logger = setup_logger(__name__)
@@ -13,7 +16,7 @@ logger = setup_logger(__name__)
 def main():
     """Main function for standalone execution."""
     # Configuration
-    screenshot_path = "screenshots/photo_2025-06-06_01-49-33.jpg"
+    screenshot_path = "screenshots/Screenshot 2025-06-06 160645.png"
     template_path = "templates/char_icon.png"
     
     try:
@@ -40,6 +43,7 @@ def main():
         print(result_json)
         
         logger.info("Extraction completed successfully")
+        cv2.waitKey(0)
         
     except Exception as e:
         logger.error(f"Extraction failed: {e}")
